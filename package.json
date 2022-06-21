@@ -2,7 +2,7 @@
   "name": "poc_aws_sqs",
   "version": "1.0.0",
   "description": "Project to demonstrate the usage of the AWS Simple Queuing Servive and Dead Letter Queues.",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "node dist/app.js",
     "build": "tsc -p src/",
