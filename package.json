@@ -4,7 +4,10 @@
   "description": "Project to demonstrate the usage of the AWS Simple Queuing Servive and Dead Letter Queues.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node dist/app.js",
+    "build": "tsc -p src/",
+    "clean": "rm -rf ./dist",
+    "start": "npm run build && npm run dev"
   },
   "keywords": [
     "AWS",
