@@ -13,8 +13,8 @@ const sqs = new AWS.SQS({apiVersion: '2012-11-05', httpOptions: {agent}});
 
 export const sendMessageToQueue = async (params) => {
     try {
-        console.log(">>>> Size: ", Buffer.byteLength(JSON.stringify(params)))
-        await sqs.sendMessageBatch(params).promise();
+        // console.log(">>>> Size: ", Buffer.byteLength(JSON.stringify(params)))
+        await sqs.sendMessage(params).promise();
     } catch (err) {
         params.QueueUrl = process.env.AWS_SQS_DEAD_LETTER_QUEUE_URL;
         await sqs.sendMessage(params).promise();

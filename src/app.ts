@@ -2,15 +2,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { Consumer } = require('sqs-consumer');
+const {Consumer} = require('sqs-consumer');
 
-import { sendMessageToQueue, purgeQueue } from './utils';
+import {sendMessageToQueue, purgeQueue} from './utils';
 //Express App Configs
 const app = express();
 
 //Setting up middlewares.
 require('dotenv').config();
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
 
@@ -25,20 +25,20 @@ app.get('/', async (req, res) => {
 
     await sendMessageToQueue(params);
 
-    res.status(200).json({ 'ok': true, 'message': 'Message Published to Queues' });
+    res.status(200).json({'ok': true, 'message': 'Message Published to Queues'});
 });
 
 app.get('/purge', (req, res) => {
     purgeQueue()
-    res.status(200).json({ 'ok': true, 'message': 'Queue purged' });
+    res.status(200).json({'ok': true, 'message': 'Queue purged'});
 })
 
 
 const sqs_consumer = Consumer.create({
     queueUrl: process.env.AWS_SQS_SOURCE_QUEUE_URL,
     visibilityTimeout: 30,
-    waitTimeSeconds: 20,
-    batchSize: 1,
+    waitTimeSeconds: 1,
+    batchSize: 10,
     handleMessage: async (message) => {
         if (message) {
             console.log(message.Body);
@@ -56,7 +56,7 @@ sqs_consumer.on('processing_error', (err) => {
 
 sqs_consumer.start();
 
-app.listen(process.env.PORT, console.log(`Server running on port ${process.env.PORT}`));
+app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
 
 
 // consumeFromQueue({
