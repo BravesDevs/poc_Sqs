@@ -1,0 +1,31 @@
+{
+  "name": "poc_aws_sqs",
+  "version": "1.0.0",
+  "description": "Project to demonstrate the usage of the AWS Simple Queuing Servive and Dead Letter Queues.",
+  "main": "dist/app.js",
+  "scripts": {
+    "dev": "node dist/app.js",
+    "build": "tsc -p src/",
+    "clean": "rm -rf ./dist",
+    "start": "npm run build && npm run dev"
+  },
+  "keywords": [
+    "AWS",
+    "SQS",
+    "QUEUING"
+  ],
+  "author": "Alexei",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1158.0",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "sqs-consumer": "^5.7.0",
+    "sqs-producer": "^2.1.0",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0"
+  }
+}
