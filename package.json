@@ -22,7 +22,8 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "sqs-consumer": "^5.7.0",
-    "sqs-producer": "^2.1.0"
+    "sqs-producer": "^2.1.0",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/node": "^18.0.0"
