@@ -1,3 +1,5 @@
+import {AWSError} from "aws-sdk";
+
 const AWS = require('aws-sdk');
 const https = require('https');
 
@@ -13,11 +15,13 @@ const sqs = new AWS.SQS({apiVersion: '2012-11-05', httpOptions: {agent}});
 
 export const sendMessageToQueue = async (params) => {
     try {
-        // console.log(">>>> Size: ", Buffer.byteLength(JSON.stringify(params)))
-        await sqs.sendMessage(params).promise();
+        sqs.sendMessageBatch(params).promise().then(data => {
+            console.log(data);
+        }).catch(err => {
+            console.log(err);
+        })
     } catch (err) {
-        params.QueueUrl = process.env.AWS_SQS_DEAD_LETTER_QUEUE_URL;
-        await sqs.sendMessage(params).promise();
+        return err;
     }
 }
 
@@ -39,7 +43,7 @@ export const consumeFromQueue = (params) => {
                 QueueUrl: params.QueueUrl,
                 ReceiptHandle: data.Messages[0].ReceiptHandle
             };
-            sqs.deleteMessage(deleteParams, (err, data) => {
+            sqs.deleteMessage(deleteParams, (err) => {
                 if (err) {
                     console.log(err, err.stack);
                 } else {
@@ -52,7 +56,7 @@ export const consumeFromQueue = (params) => {
 }
 
 export const purgeQueue = () => {
-    sqs.purgeQueue({QueueUrl: process.env.AWS_SQS_SOURCE_QUEUE_URL}, (err, data) => {
+    sqs.purgeQueue({QueueUrl: process.env.AWS_SQS_SOURCE_QUEUE_URL}, (err: AWSError) => {
         if (err) {
             console.log(err, err.stack);
         } else {
